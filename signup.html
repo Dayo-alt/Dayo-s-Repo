@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - CHOWRI</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Sign Up</h2>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="matric_number">Matric Number</label>
+                <input type="text" id="matric_number" name="matric_number" required>
+            </div>
+            <div class="form-group">
+                <label for="department">Department</label>
+                <input type="text" id="department" name="department" required>
+            </div>
+            <div class="form-group">
+                <label for="college">College</label>
+                <input type="text" id="college" name="college" required>
+            </div>
+            <div class="form-group">
+                <label for="level">Level</label>
+                <input type="text" id="level" name="level" required>
+            </div>
+            <div class="form-group">
+                <label for="hostel">Hostel</label>
+                <input type="text" id="hostel" name="hostel" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Sign Up</button>
+        </form>
+        <p>If you have signed up before, <a href="signin.html">sign in</a></p>
+    </div>
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => { data[key] = value });
+            const response = await fetch('/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            if (result.success) {
+                localStorage.setItem('matric_number', data.matric_number);
+                window.location.href = 'index.html'; // Redirect to the order page
+            } else {
+                alert('Sign-up failed. Matric number might already exist.');
+            }
+        });
+    </script>
+</body>
+</html>

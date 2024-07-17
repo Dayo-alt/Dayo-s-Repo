@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - CHOWRI</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Sign In</h2>
+        <form id="signinForm">
+            <div class="form-group">
+                <label for="matric_number">Matric Number</label>
+                <input type="text" id="matric_number" name="matric_number" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Sign In</button>
+        </form>
+        <p>If not signed up, <a href="signup.html">sign up</a></p>
+    </div>
+    <script>
+        document.getElementById('signinForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const matric_number = document.getElementById('matric_number').value;
+            const password = document.getElementById('password').value;
+            const response = await fetch('/signin', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ matric_number, password })
+            });
+            const result = await response.json();
+            if (result.success) {
+                localStorage.setItem('matric_number', matric_number);
+                window.location.href = 'index.html'; // Redirect to the order page
+            } else {
+                alert('Invalid login credentials');
+            }
+        });
+    </script>
+</body>
+</html>

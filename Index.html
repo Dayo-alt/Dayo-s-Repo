@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order - CHOWRI</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <img src="images/logo.png" alt="CHOWRI Logo" class="logo">
+        </div>
+        <div class="title">CHOWRI</div>
+        <a href="profile.html" class="menu-btn">Profile</a> <!-- Link to profile page -->
+    </header>
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <h3>Kitchens</h3>
+            <ul>
+                <li><label><input type="checkbox" name="kitchen" value="Bunlab"> Bunlab</label></li>
+                <li><label><input type="checkbox" name="kitchen" value="Multigrace"> Multigrace</label></li>
+                <li><label><input type="checkbox" name="kitchen" value="Stirfry Stand"> Stirfry Stand</label></li>
+                <li><label><input type="checkbox" name="kitchen" value="Kitchen 5"> Kitchen 5</label></li>
+                <li><label><input type="checkbox" name="kitchen" value="Kitchen 1"> Kitchen 1</label></li>
+            </ul>
+
+            <h3>Foods</h3>
+            <fieldset>
+                <legend>Rice Dishes</legend>
+                <label><input type="checkbox" name="foods" value="Rice"> Rice</label>
+                <label><input type="checkbox" name="foods" value="Jollof Rice"> Jollof Rice</label>
+                <label><input type="checkbox" name="foods" value="Fried Rice"> Fried Rice</label>
+                <label><input type="checkbox" name="foods" value="Ofada Rice"> Ofada Rice</label>
+            </fieldset>
+            <fieldset>
+                <legend>Pasta Dishes</legend>
+                <label><input type="checkbox" name="foods" value="Spaghetti"> Spaghetti</label>
+                <label><input type="checkbox" name="foods" value="Jollof Spaghetti"> Jollof Spaghetti</label>
+            </fieldset>
+            <fieldset>
+                <legend>Side Dishes</legend>
+                <label><input type="checkbox" name="foods" value="Plantain"> Plantain</label>
+                <label><input type="checkbox" name="foods" value="Egg"> Egg</label>
+                <label><input type="checkbox" name="foods" value="Moimoi"> Moimoi</label>
+            </fieldset>
+            <fieldset>
+                <legend>Meat Dishes</legend>
+                <label><input type="checkbox" name="foods" value="Meat"> Meat</label>
+                <label><input type="checkbox" name="foods" value="Ponmo"> Ponmo</label>
+                <label><input type="checkbox" name="foods" value="Chicken (1000)"> Chicken (1000)</label>
+                <label><input type="checkbox" name="foods" value="Chicken (2000)"> Chicken (2000)</label>
+            </fieldset>
+            <fieldset>
+                <legend>Swallow</legend>
+                <label><input type="checkbox" name="foods" value="Amala"> Amala</label>
+                <label><input type="checkbox" name="foods" value="Semo"> Semo</label>
+                <label><input type="checkbox" name="foods" value="Fufu"> Fufu</label>
+                <label><input type="checkbox" name="foods" value="Eba"> Eba</label>
+            </fieldset>
+            <fieldset>
+                <legend>Soups/Stew</legend>
+                <label><input type="checkbox" name="foods" value="Normal Stew"> Normal Stew</label>
+                <label><input type="checkbox" name="foods" value="Ofada Stew"> Ofada Stew</label>
+                <label><input type="checkbox" name="foods" value="Vegetable Soup"> Vegetable Soup</label>
+                <label><input type="checkbox" name="foods" value="Okra Soup"> Okra Soup</label>
+                <label><input type="checkbox" name="foods" value="Ewedu Soup"> Ewedu Soup</label>
+                <label><input type="checkbox" name="foods" value="Egusi Soup"> Egusi Soup</label>
+            </fieldset>
+        </div>
+        <div class="main-content">
+            <h2>Place Your Order</h2>
+            <form id="orderForm" class="order-form">
+                <!-- Order form fields -->
+                <!-- Include your checkboxes or other input elements here -->
+                <button type="submit">Place Order</button>
+            </form>
+            <div class="popup" id="orderPopup">
+                <p>Order placed successfully!</p>
+                <button onclick="closePopup()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for submitting order -->
+    <script>
+        function closePopup() {
+            document.getElementById('orderPopup').style.display = 'none';
+        }
+
+        document.getElementById('orderForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // Fetch selected kitchens
+            const kitchens = Array.from(document.querySelectorAll('input[name="kitchen"]:checked')).map(el => el.value);
+
+            // Fetch selected foods
+            const foods = Array.from(document.querySelectorAll('input[name="foods"]:checked')).map(el => el.value);
+
+            // Example: Fetch other form inputs
+            // const name = document.getElementById('name').value;
+            // const address = document.getElementById('address').value;
+            // const phoneNumber = document.getElementById('phoneNumber').value;
+
+            // Example: Prepare data to send
+            // const formData = { name, address, phoneNumber, kitchens, foods };
+
+            // Replace `formData` with your actual data structure
+            const formData = { kitchens, foods };
+
+            // Simulate POST request
+            const response = await fetch('/order', {
+                method: 'POST',
+                body: JSON.stringify(formData),
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                document.getElementById('orderPopup').style.display = 'block';
+            } else {
+                alert('Failed to place order');
+            }
+        });
+    </script>
+</body>
+</html>
